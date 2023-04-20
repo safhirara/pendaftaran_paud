@@ -9,8 +9,8 @@ import LogoPaud from "../assets/logo-paud.png";
 import { supabase } from "../supabaseClient";
 import { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { AiOutlineEye } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Link } from "react-router-dom";
 import {
   Drawer,
   DrawerBody,
@@ -22,21 +22,35 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
-function Admin() {
+function List() {
   const [id, setId] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+  const [list, setList] = useState([]);
+  async function getList() {
+    let { data: pendaftar, error } = await supabase
+      .from("pendaftar")
+      .select("*");
+    setList(pendaftar);
+  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setId(session.user.id);
     });
+    getList();
   }, []);
+
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+  }
+
+  console.log("ini datanya", list);
 
   const history = useHistory();
   return (
     <div className="bg-gradient-to-b from-primary2  h-screen flex justify-center items-center">
-      <div className="  w-full max-w-2xl z-20 flex flex-col justify-between h-screen to-white ">
+      <div className="  w-full max-w-2xl z-20 flex flex-col justify-between h-screen to-white space-y-10 ">
         <div className="w-full flex flex-row p-5 items-center sticky top-0 ">
           <button
             className="bg-primary rounded-full p-1 text-2xl  text-primary2"
@@ -52,45 +66,42 @@ function Admin() {
             <GiHamburgerMenu></GiHamburgerMenu>
           </button>
         </div>
-        <div className="w-full flex space-y-3 px-10 py-20  justify-center  flex-col">
-          <div className="w-full flex justify-center flex-col">
-            <img src={LogoPaud} className="w-20" alt="" />
-            <h1 className="text-3xl font-bold text-primary">Selamat Datang!</h1>
-            <h1 className="text-xl font-bold text-primary">
-              dilayanan pengelolaan KB Mugi Rahayu
+
+        <div className="w-full bg-primary p-5 rounded-t-3xl h-4/5 flex flex-col justify-between">
+          <div className="relative bg-primary2 rounded-lg p-4 bottom-10">
+            <h1 className="text-center text-xl font-bold text-primary ">
+              List Pendaftaran Calon Siswa
             </h1>
           </div>
-        </div>
-        <div className="w-full bg-primary p-5 rounded-t-xl h-full flex flex-col justify-between">
-          <h1 className="text-white font-medium">
-            Apa yang ingin anda kunjungi :
-          </h1>
-          <div className="w-full flex  flex-col space-y-8  justify-center items-center">
+
+          <div className="flex flex-col space-y-3 overflow-scroll rounded-lg">
+            {list.map((e) => (
+              <div className="w-full flex flex-col bg-white rounded-lg p-3 space-y-4">
+                <div className="w-full flex flex-row justify-between items-center">
+                  <h1 className="text-primary font-semibold">{e.id}</h1>
+                  <button>
+                    <AiOutlineEye />
+                  </button>
+                </div>
+                <div>
+                  <div className="text-primary font-semibold capitalize">
+                    <p>{e.nama_lengkap}</p>
+                    <p>{e.status_murid}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="py-1">
             <Button
-              width={"full"}
+              width={"min"}
               color={"#2C2152"}
               bgColor={"#FEE771"}
-              size={"lg"}
+              onClick={() => history.push("/admin")}
             >
-              <Link to="/admin/list">List pendaftaran Calon Siswa</Link>
-            </Button>
-            <Button
-              width={"full"}
-              color={"#2C2152"}
-              bgColor={"#FEE771"}
-              size={"lg"}
-            >
-              Cetak Laporan Pendaftaran
+              <BiArrowBack />
             </Button>
           </div>
-          <Button
-            width={"min"}
-            color={"#2C2152"}
-            bgColor={"#FEE771"}
-            onClick={() => history.push("/")}
-          >
-            <BiArrowBack />
-          </Button>
         </div>
       </div>
       <Drawer
@@ -107,7 +118,9 @@ function Admin() {
           <DrawerBody>
             <div className="space-y-5">
               <Button width={"full"}>Pengaturan</Button>
-              <Button width={"full"}>Logout</Button>
+              <Button width={"full"} onClick={() => signOut()}>
+                Logout
+              </Button>
             </div>
           </DrawerBody>
         </DrawerContent>
@@ -116,4 +129,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default List;

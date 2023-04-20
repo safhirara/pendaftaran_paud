@@ -21,6 +21,7 @@ function App() {
       setSession(session);
     });
   }, []);
+  console.log(session);
 
   return (
     <>
@@ -45,13 +46,26 @@ function App() {
         />
         <Route
           exact
-          path={"/beranda"}
+          path={"/"}
           render={() => {
             document.title = `Beranda | Pendaftaran Paud`;
             const Beranda = lazy(() => import("./pages/Beranda"));
             return (
               <React.Suspense fallback={<Preloader />}>
                 <Beranda></Beranda>
+              </React.Suspense>
+            );
+          }}
+        />
+        <Route
+          exact
+          path={"/daftar"}
+          render={() => {
+            document.title = `Daftar | Pendaftaran Paud`;
+            const Daftar = lazy(() => import("./pages/Daftar"));
+            return (
+              <React.Suspense fallback={<Preloader />}>
+                <Daftar></Daftar>
               </React.Suspense>
             );
           }}
@@ -74,13 +88,13 @@ function App() {
                     />
                   );
                 }
-                document.title = `${route.title} | Gussy Salon`;
+                document.title = `${route.title} | Pendaftaran Paud`;
                 const AppLayout = BaseLayout;
                 return (
                   <React.Suspense fallback={<Preloader />}>
-                    <AppLayout>
-                      <route.component />
-                    </AppLayout>
+                    {/* <AppLayout> */}
+                    <route.component />
+                    {/* </AppLayout> */}
                   </React.Suspense>
                 );
               }}
