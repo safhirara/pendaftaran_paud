@@ -33,6 +33,10 @@ function Admin() {
     });
   }, []);
 
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+  }
+
   const history = useHistory();
   return (
     <div className="bg-gradient-to-b from-primary2  h-screen flex justify-center items-center">
@@ -107,7 +111,9 @@ function Admin() {
           <DrawerBody>
             <div className="space-y-5">
               <Button width={"full"}>Pengaturan</Button>
-              <Button width={"full"}>Logout</Button>
+              <Button width={"full"} onClick={signOut}>
+                Logout
+              </Button>
             </div>
           </DrawerBody>
         </DrawerContent>

@@ -70,6 +70,19 @@ function App() {
             );
           }}
         />
+        <Route
+          exact
+          path={"/daftar/upload-dokumen/:id"}
+          render={() => {
+            document.title = `Daftar | Pendaftaran Paud`;
+            const UploadDokumen = lazy(() => import("./pages/UploadDokumen"));
+            return (
+              <React.Suspense fallback={<Preloader />}>
+                <UploadDokumen></UploadDokumen>
+              </React.Suspense>
+            );
+          }}
+        />
 
         {routes.map((route) => {
           return (

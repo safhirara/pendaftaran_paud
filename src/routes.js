@@ -14,6 +14,13 @@ const routes = [{
     exact: true,
     component: lazy(() => import('./pages/List'))
 
-}]
+},{
+    path: '/admin/list/detail/:id',
+    title: 'Detail',
+    exact: true,
+    component: lazy(() => import("./pages/Detail"))
+}
+
+]
 
 export default routes

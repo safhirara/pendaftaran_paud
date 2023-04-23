@@ -9,6 +9,7 @@ import LogoPaud from "../assets/logo-paud.png";
 import { supabase } from "../supabaseClient";
 import { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { Link } from "react-router-dom";
 import { AiOutlineEye } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import {
@@ -74,14 +75,19 @@ function List() {
             </h1>
           </div>
 
-          <div className="flex flex-col space-y-3 overflow-scroll rounded-lg">
+          <div className="flex flex-col space-y-3 px-5 h-full  overflow-y-scroll rounded-lg">
             {list.map((e) => (
-              <div className="w-full flex flex-col bg-white rounded-lg p-3 space-y-4">
+              <div className="w-full flex flex-col  bg-white rounded-lg p-3 space-y-4">
                 <div className="w-full flex flex-row justify-between items-center">
                   <h1 className="text-primary font-semibold">{e.id}</h1>
-                  <button>
-                    <AiOutlineEye />
-                  </button>
+                  <Link to="/admin/list/detail/33">
+                    <button className="p-1 bg-green-400 rounded-full text-white ">
+                      <span className="w-full flex flex-row font-bold justify-center items-center gap-3 px-3">
+                        Detail
+                        <AiOutlineEye />
+                      </span>
+                    </button>
+                  </Link>
                 </div>
                 <div>
                   <div className="text-primary font-semibold capitalize">
