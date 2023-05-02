@@ -96,7 +96,7 @@ function Detail() {
                     <Input
                       disabled
                       bgColor={"#D9D9D9"}
-                      value={e.kewarganegaraan.toUpperCase()}
+                      value={e?.kewarganegaraan || null}
                     ></Input>
                   </div>
                 </div>
@@ -113,7 +113,7 @@ function Detail() {
                     <Input
                       disabled
                       bgColor={"#D9D9D9"}
-                      value={e.jumlah_saudara}
+                      value={e?.jumlah_saudara}
                     ></Input>
                   </div>
                 </div>
@@ -121,24 +121,28 @@ function Detail() {
                 <Input
                   disabled
                   bgColor={"#D9D9D9"}
-                  value={e.bahasa_sehari_hari.toUpperCase()}
+                  value={e?.bahasa_sehari_hari || null}
                 ></Input>
 
                 <h1 className="text-white font-bold">10.BERAT/TINGGI BADAN</h1>
                 <div className="w-full flex flex-row space-x-4">
-                  <Input disabled bgColor={"#D9D9D9"} value={e.bb}></Input>
-                  <Input disabled bgColor={"#D9D9D9"} value={e.tb}></Input>
+                  <Input disabled bgColor={"#D9D9D9"} value={e?.bb}></Input>
+                  <Input disabled bgColor={"#D9D9D9"} value={e?.tb}></Input>
                 </div>
 
                 <h1 className="text-white font-bold">11.GOLONGAN DARAH</h1>
-                <Input disabled bgColor={"#D9D9D9"} value={e.gol_darah}></Input>
+                <Input
+                  disabled
+                  bgColor={"#D9D9D9"}
+                  value={e?.gol_darah}
+                ></Input>
                 <h1 className="text-white font-bold">
                   12. PENYAKIT YANG PERNAH DIDERITA
                 </h1>
                 <Input
                   disabled
                   bgColor={"#D9D9D9"}
-                  value={e.riwayat_penyakit}
+                  value={e?.riwayat_penyakit}
                 ></Input>
                 <h1 className="text-white font-bold">
                   13. ALAMAT TEMPAT TINGGAL
@@ -233,7 +237,7 @@ function Detail() {
                 <Input
                   disabled
                   bgColor={"#D9D9D9"}
-                  value={e.status_murid.toUpperCase()}
+                  value={e.status_murid || null}
                 ></Input>
                 <div>
                   <h1 className="text-white font-light">PINDAHAN DARI</h1>
@@ -242,7 +246,7 @@ function Detail() {
                     <Input
                       disabled
                       bgColor={"#D9D9D9"}
-                      value={e.nama_sekolah.toUpperCase()}
+                      value={e.nama_sekolah || null}
                     ></Input>
                     <h1 className="text-white font-bold">HARI/TANGGAL</h1>
                     <Input

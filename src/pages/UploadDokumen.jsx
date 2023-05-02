@@ -13,23 +13,53 @@ import { useDisclosure } from "@chakra-ui/react";
 function UploadDokumen() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const finalRef = React.useRef(null);
-  const [fileUrl, setFileUrl] = useState("");
-  const [fileName, setFileName] = useState("");
+  const [fileUrl1, setFileUrl1] = useState("");
+  const [fileName1, setFileName1] = useState("");
+  const [fileUrl2, setFileUrl2] = useState("");
+  const [fileName2, setFileName2] = useState("");
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload1 = (event) => {
     const file = event.target.files[0];
-    setFileName(file.name);
-    setFileUrl(URL.createObjectURL(file));
+    setFileName1(file.name);
+    setFileUrl1(URL.createObjectURL(file));
+    // lakukan sesuatu dengan file yang di-upload
+  };
+  const handleFileUpload2 = (event) => {
+    const file = event.target.files[0];
+    setFileName2(file.name);
+    setFileUrl2(URL.createObjectURL(file));
     // lakukan sesuatu dengan file yang di-upload
   };
 
-  const handleFileClear = () => {
+  console.log("ini adlaah localstorage", localStorage.getItem("data_form"));
+
+  const handleFileClear1 = () => {
     setFileName("");
-    setFileUrl("");
+    setFileUrl1("");
+  };
+  const handleFileClear2 = () => {
+    setFileName("");
+    setFileUrl1("");
   };
   const history = useHistory();
-  const [selectedFile, setSelectedFile] = useState();
-  const [preview, setPreview] = useState();
+
+  console.log("ini adalah nama file", fileName1);
+  console.log("ini adalah nama url", fileUrl1);
+
+  const handleUpload = async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from("data_murid")
+        .upload("akta-kelahiran/" + image.name, fileName1);
+      if (error) {
+        throw error;
+      }
+      console.log(data.Key);
+      // simpan data.Key di database
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="w-full min-h-screen bg-primary">
@@ -54,17 +84,17 @@ function UploadDokumen() {
               SILAHKAN UNGGAH DOKUMEN DIBAWAH INI
             </h1>
             <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-gray-200 cursor-pointer hover:bg-gray-100">
-              {fileUrl ? (
+              {fileUrl1 ? (
                 <>
                   <img
-                    src={fileUrl}
-                    alt={fileName}
+                    src={fileUrl1}
+                    alt={fileName1}
                     className="h-40 w-auto mb-4"
                   />
                   <button
                     type="button"
                     className=" right-0 p-2  text-gray-400 font-bold text-sm hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                    onClick={handleFileClear}
+                    onClick={handleFileClear1}
                   >
                     Hapus Dokumen
                   </button>
@@ -83,21 +113,21 @@ function UploadDokumen() {
               <input
                 type="file"
                 className="hidden"
-                onChange={handleFileUpload}
+                onChange={handleFileUpload1}
               />
             </label>
             <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-gray-200 cursor-pointer hover:bg-gray-100">
-              {fileUrl ? (
+              {fileUrl2 ? (
                 <>
                   <img
-                    src={fileUrl}
-                    alt={fileName}
+                    src={fileUrl2}
+                    alt={fileName2}
                     className="h-40 w-auto mb-4"
                   />
                   <button
                     type="button"
                     className=" right-0 p-2  text-gray-400 font-bold text-sm hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                    onClick={handleFileClear}
+                    onClick={handleFileClear2}
                   >
                     Hapus Dokumen
                   </button>
@@ -116,9 +146,16 @@ function UploadDokumen() {
               <input
                 type="file"
                 className="hidden"
-                onChange={handleFileUpload}
+                onChange={handleFileUpload2}
               />
             </label>
+
+            <Link to="/daftar">
+              <Button bgColor={"#FFE353"} width={"full"} onClick={onOpen}>
+                Kembali
+              </Button>
+            </Link>
+
             <Button bgColor={"#A5FF4C"} onClick={onOpen}>
               Submit
             </Button>
