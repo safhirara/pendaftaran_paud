@@ -9,17 +9,25 @@ import Lanang from "../assets/GambarLanang.png";
 import { Modal, ModalOverlay, ModalContent, ModalBody } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
+import { supabase } from "../supabaseClient";
+import { v4 as uuidv4 } from "uuid";
 
 function UploadDokumen() {
+  console.log(uuidv4());
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState();
   const finalRef = React.useRef(null);
   const [fileUrl1, setFileUrl1] = useState("");
+  const [files1, setFiles1] = useState(null);
+  const [files2, setFiles2] = useState(null);
   const [fileName1, setFileName1] = useState("");
   const [fileUrl2, setFileUrl2] = useState("");
   const [fileName2, setFileName2] = useState("");
+  const history = useHistory();
 
   const handleFileUpload1 = (event) => {
     const file = event.target.files[0];
+    setFiles1(file);
     setFileName1(file.name);
     setFileUrl1(URL.createObjectURL(file));
     // lakukan sesuatu dengan file yang di-upload
@@ -31,7 +39,11 @@ function UploadDokumen() {
     // lakukan sesuatu dengan file yang di-upload
   };
 
-  console.log("ini adlaah localstorage", localStorage.getItem("data_form"));
+  useEffect(() => {
+    if (!localStorage.getItem("data_form")) {
+      history.push("/");
+    }
+  }, []);
 
   const handleFileClear1 = () => {
     setFileName("");
@@ -41,23 +53,50 @@ function UploadDokumen() {
     setFileName("");
     setFileUrl1("");
   };
-  const history = useHistory();
 
-  console.log("ini adalah nama file", fileName1);
-  console.log("ini adalah nama url", fileUrl1);
+  console.log("ini files", files1);
 
-  const handleUpload = async () => {
-    try {
+  async function handleFileUpload() {
+    const dataForm = JSON.parse(localStorage.getItem("data_form"));
+    if (files1) {
       const { data, error } = await supabase.storage
-        .from("data_murid")
-        .upload("akta-kelahiran/" + image.name, fileName1);
+        .from("berkas_pendaftaran")
+        .upload(dataForm.nama_lengkap + "/" + "Akta Kelahiran", files1);
       if (error) {
-        throw error;
+        console.log(error);
+      } else {
+        console.log(data);
       }
-      console.log(data.Key);
-      // simpan data.Key di database
+    }
+    if (files2) {
+      const { data, error } = await supabase.storage
+        .from("berkas_pendaftaran")
+        .upload(dataForm.nama_lengkap + "/" + "Kartu Keluarga", files2);
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data);
+      }
+    }
+  }
+
+  const handleAddData = async (e) => {
+    e.preventDefault();
+    const dataForm = JSON.parse(localStorage.getItem("data_form"));
+    console.log("ini data Form", dataForm);
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("pendaftar")
+        .insert([dataForm]);
+      if (error) throw error;
+      handleFileUpload();
+      onOpen();
+      localStorage.removeItem("data_form");
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,87 +118,93 @@ function UploadDokumen() {
           <h1 className="text-green-400 font-bold text-center">
             FORMULIR BERHASIL DIKUMPULKAN!
           </h1>
-          <div className="w-full flex flex-col space-y-10">
-            <h1 className="text-white font-light">
-              SILAHKAN UNGGAH DOKUMEN DIBAWAH INI
-            </h1>
-            <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-gray-200 cursor-pointer hover:bg-gray-100">
-              {fileUrl1 ? (
-                <>
-                  <img
-                    src={fileUrl1}
-                    alt={fileName1}
-                    className="h-40 w-auto mb-4"
-                  />
-                  <button
-                    type="button"
-                    className=" right-0 p-2  text-gray-400 font-bold text-sm hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                    onClick={handleFileClear1}
-                  >
-                    Hapus Dokumen
-                  </button>
-                </>
-              ) : (
-                <>
-                  <div className="flex flex-col items-center justify-center">
-                    <BsFileEarmarkArrowUp className="h-12 w-12 text-gray-500" />
+          <form action="" onSubmit={handleAddData}>
+            <div className="w-full flex flex-col space-y-10">
+              <h1 className="text-white font-light">
+                SILAHKAN UNGGAH DOKUMEN DIBAWAH INI
+              </h1>
+              <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-gray-200 cursor-pointer hover:bg-gray-100">
+                {fileUrl1 ? (
+                  <>
+                    <img
+                      src={fileUrl1}
+                      alt={fileName1}
+                      className="h-40 w-auto mb-4"
+                    />
+                    <button
+                      type="button"
+                      className=" right-0 p-2  text-gray-400 font-bold text-sm hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+                      onClick={handleFileClear1}
+                    >
+                      Hapus Dokumen
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-col items-center justify-center">
+                      <BsFileEarmarkArrowUp className="h-12 w-12 text-gray-500" />
 
-                    <p className="mt-2 text-base font-medium text-gray-500">
-                      AKTA KELAHIRAN
-                    </p>
-                  </div>
-                </>
-              )}
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleFileUpload1}
-              />
-            </label>
-            <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-gray-200 cursor-pointer hover:bg-gray-100">
-              {fileUrl2 ? (
-                <>
-                  <img
-                    src={fileUrl2}
-                    alt={fileName2}
-                    className="h-40 w-auto mb-4"
-                  />
-                  <button
-                    type="button"
-                    className=" right-0 p-2  text-gray-400 font-bold text-sm hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                    onClick={handleFileClear2}
-                  >
-                    Hapus Dokumen
-                  </button>
-                </>
-              ) : (
-                <>
-                  <div className="flex flex-col items-center justify-center">
-                    <BsFileEarmarkArrowUp className="h-12 w-12 text-gray-500" />
+                      <p className="mt-2 text-base font-medium text-gray-500">
+                        AKTA KELAHIRAN
+                      </p>
+                    </div>
+                  </>
+                )}
+                <input
+                  required
+                  name="akta"
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileUpload1}
+                />
+              </label>
+              <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-gray-200 cursor-pointer hover:bg-gray-100">
+                {fileUrl2 ? (
+                  <>
+                    <img
+                      src={fileUrl2}
+                      alt={fileName2}
+                      className="h-40 w-auto mb-4"
+                    />
+                    <button
+                      type="button"
+                      className=" right-0 p-2  text-gray-400 font-bold text-sm hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+                      onClick={handleFileClear2}
+                    >
+                      Hapus Dokumen
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-col items-center justify-center">
+                      <BsFileEarmarkArrowUp className="h-12 w-12 text-gray-500" />
 
-                    <p className="mt-2 text-base font-medium text-gray-500">
-                      KARTU KELUARGA
-                    </p>
-                  </div>
-                </>
-              )}
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleFileUpload2}
-              />
-            </label>
+                      <p className="mt-2 text-base font-medium text-gray-500">
+                        KARTU KELUARGA
+                      </p>
+                    </div>
+                  </>
+                )}
+                <input
+                  required
+                  type="file"
+                  name="kk"
+                  className="hidden"
+                  onChange={handleFileUpload2}
+                />
+              </label>
 
-            <Link to="/daftar">
-              <Button bgColor={"#FFE353"} width={"full"} onClick={onOpen}>
-                Kembali
+              <Link to="/daftar">
+                <Button bgColor={"#FFE353"} width={"full"} onClick={onOpen}>
+                  Kembali
+                </Button>
+              </Link>
+
+              <Button bgColor={"#A5FF4C"} type="submit">
+                Submit
               </Button>
-            </Link>
-
-            <Button bgColor={"#A5FF4C"} onClick={onOpen}>
-              Submit
-            </Button>
-          </div>
+            </div>
+          </form>
         </div>
         <>
           <Modal

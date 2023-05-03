@@ -38,6 +38,11 @@ function Daftar() {
     }
   }, []);
 
+  const clearData = () => {
+    localStorage.removeItem("data_form");
+    onClose();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("data_form", JSON.stringify(formData));
@@ -45,10 +50,6 @@ function Daftar() {
     // console.log("hhehehe", e);
     // setData(...data,{jenis_kelamin: e})
   };
-
-  console.log(formData);
-
-  console.log(localStorage.getItem("data_form"));
 
   const handleChange = (attr, num) => {
     !num
@@ -86,6 +87,7 @@ function Daftar() {
           <p className="text-white font-bold">A. KETERANGAN ANAK DIDIK</p>
           <h1 className="text-white font-bold">1. NAMA LENGKAP</h1>
           <Input
+            required
             bgColor={"#D9D9D9"}
             placeholder="Masukkan Nama Lengkap"
             value={formData.nama_lengkap}
@@ -96,6 +98,7 @@ function Daftar() {
             2. NAMA PANGGILAN
           </FormLabel>
           <Input
+            required
             bgColor={"#D9D9D9"}
             placeholder="Masukkan Nama Panggilan"
             value={formData.nama_panggilan}
@@ -109,6 +112,7 @@ function Daftar() {
               </FormLabel>
               <Select
                 bgColor={"#D9D9D9"}
+                required
                 variant="outline"
                 placeholder="Pilih Jenis Kelamin"
                 value={formData.jenis_kelamin}
@@ -125,6 +129,7 @@ function Daftar() {
               </FormLabel>
               <Input
                 type="date"
+                required
                 bgColor={"#D9D9D9"}
                 value={formData.tanggal_lahir}
                 name="tanggal_lahir"
@@ -137,17 +142,19 @@ function Daftar() {
               <FormLabel className="text-white font-bold">5. AGAMA</FormLabel>
               <Select
                 bgColor={"#D9D9D9"}
+                required
                 variant="outline"
                 placeholder="Pilih Agama"
                 value={formData.agama}
                 name="agama"
                 onChange={(e) => handleChange(e, false)}
               >
-                <option value="WNI">ISLAM</option>
-                <option value="WNA">KHATOLIK</option>
-                <option value="WNA">HINDU</option>
-                <option value="WNA">BUDHA</option>
-                <option value="WNA">KONGHUCU</option>
+                <option value="1">ISLAM</option>
+                <option value="2">KRISTEN</option>
+                <option value="3">KHATOLIK</option>
+                <option value="4">HINDU</option>
+                <option value="5">BUDHA</option>
+                <option value="6">KONGHUCU</option>
               </Select>
             </div>
             <div>
@@ -156,6 +163,7 @@ function Daftar() {
               </FormLabel>
               <Select
                 bgColor={"#D9D9D9"}
+                required
                 variant="outline"
                 placeholder="Pilih Kewarganegaraan"
                 value={formData.kewarganegaraan}
@@ -173,6 +181,7 @@ function Daftar() {
               <FormLabel className="text-white font-bold">7. ANAK KE</FormLabel>
               <Input
                 type="number"
+                required
                 bgColor={"#D9D9D9"}
                 value={formData.anak_ke}
                 name="anak_ke"
@@ -185,6 +194,7 @@ function Daftar() {
               </FormLabel>
               <Input
                 type="number"
+                required
                 bgColor={"#D9D9D9"}
                 value={formData.jumlah_saudara}
                 name="jumlah_saudara"
@@ -197,6 +207,7 @@ function Daftar() {
           </FormLabel>
           <Input
             bgColor={"#D9D9D9"}
+            required
             value={formData.bahasa_sehari_hari}
             name="bahasa_sehari_hari"
             onChange={(e) => handleChange(e, false)}
@@ -208,6 +219,7 @@ function Daftar() {
           <div className="w-full flex flex-row space-x-4">
             <InputGroup>
               <Input
+                required
                 type="number"
                 bgColor={"#D9D9D9"}
                 value={formData.bb}
@@ -219,6 +231,7 @@ function Daftar() {
             <InputGroup>
               <Input
                 type="number"
+                required
                 bgColor={"#D9D9D9"}
                 value={formData.tb}
                 name="tb"
@@ -233,6 +246,7 @@ function Daftar() {
           </FormLabel>
           <Select
             bgColor={"#D9D9D9"}
+            required
             variant="outline"
             placeholder="Pilih Golongan Darah"
             value={formData.gol_darah}
@@ -249,6 +263,7 @@ function Daftar() {
           </FormLabel>
           <Input
             bgColor={"#D9D9D9"}
+            required
             value={formData.riwayat_penyakit}
             name="riwayat_penyakit"
             onChange={(e) => handleChange(e, false)}
@@ -258,6 +273,7 @@ function Daftar() {
           </FormLabel>
           <Input
             bgColor={"#D9D9D9"}
+            required
             value={formData.alamat}
             name="alamat"
             onChange={(e) => handleChange(e, false)}
@@ -269,8 +285,9 @@ function Daftar() {
             <InputLeftAddon children="+62"></InputLeftAddon>
             <Input
               bgColor={"#D9D9D9"}
-              value={formData.no_hp}
-              name="no_hp"
+              required
+              value={formData.no_telp}
+              name="no_telp"
               onChange={(e) => handleChange(e, true)}
             ></Input>
           </InputGroup>
@@ -279,6 +296,7 @@ function Daftar() {
           </FormLabel>
           <Input
             bgColor={"#D9D9D9"}
+            required
             value={formData.jarak_tempat_tinggal}
             name="jarak_tempat_tinggal"
             onChange={(e) => handleChange(e, false)}
@@ -403,6 +421,7 @@ function Daftar() {
             bgColor={"#D9D9D9"}
             variant="outline"
             placeholder="Pilih Status"
+            required
             value={formData.status_murid}
             name="status_murid"
             onChange={(e) => handleChange(e, false)}
@@ -455,7 +474,7 @@ function Daftar() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="red" mr={3}>
+            <Button colorScheme="red" mr={3} onClick={clearData}>
               Reset Data
             </Button>
             <Button bgColor={"#A5FF4C"} onClick={onClose}>

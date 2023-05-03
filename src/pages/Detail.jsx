@@ -8,21 +8,43 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 import { BiHomeAlt } from "react-icons/bi";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
 function Detail() {
   const history = useHistory();
   const [data, setData] = useState();
+  const [imageUrls, setImageUrls] = useState([]);
+  const params = useParams();
+  console.log(params);
+
+  useEffect(() => {
+    async function loadImages() {
+      const { data: images, error } = await supabase.storage
+        .from("data_murid")
+        .list("akta_kelahiran");
+
+      if (error) {
+        console.log(error);
+      } else {
+        setImageUrls(
+          images.map((image) =>
+            supabase.storage.from("data_murid").getPublicUrl(image.path)
+          )
+        );
+      }
+    }
+
+    loadImages();
+  }, []);
+
   async function getList() {
     let { data: pendaftar, error } = await supabase
       .from("pendaftar")
       .select()
-      .eq("id", 1);
+      .eq("id", params.id);
     setData(pendaftar);
   }
-
-  console.log(data);
 
   useEffect(() => {
     getList();
@@ -40,6 +62,7 @@ function Detail() {
         <h1 className="font-bold text-primary2  w-full text-center">
           PENDAFTARAN CALON ANAK DIDIK PAUD/TK/RA
         </h1>
+        <img src={imageUrls} alt="this is image" />
       </div>
       <div className="w-full px-5 py-20 flex justify-center items-center">
         <form action="" className="max-w-3xl container flex flex-col space-y-4">
@@ -104,7 +127,11 @@ function Detail() {
                 <div className="w-full flex flex-row space-x-3">
                   <div className="w-24">
                     <h1 className="text-white font-bold">7. ANAK KE</h1>
-                    <Input disabled bgColor={"#D9D9D9"}></Input>
+                    <Input
+                      disabled
+                      value={e.anak_ke}
+                      bgColor={"#D9D9D9"}
+                    ></Input>
                   </div>
                   <div>
                     <h1 className="text-white font-bold">
@@ -126,8 +153,30 @@ function Detail() {
 
                 <h1 className="text-white font-bold">10.BERAT/TINGGI BADAN</h1>
                 <div className="w-full flex flex-row space-x-4">
-                  <Input disabled bgColor={"#D9D9D9"} value={e?.bb}></Input>
-                  <Input disabled bgColor={"#D9D9D9"} value={e?.tb}></Input>
+                  <InputGroup>
+                    <Input
+                      required
+                      type="number"
+                      bgColor={"#D9D9D9"}
+                      value={e?.bb}
+                      disabled
+                      name="bb"
+                      onChange={(e) => handleChange(e, true)}
+                    ></Input>
+                    <InputRightAddon children="KG"></InputRightAddon>
+                  </InputGroup>
+                  <InputGroup>
+                    <Input
+                      type="number"
+                      required
+                      bgColor={"#D9D9D9"}
+                      value={e?.tb}
+                      disabled
+                      name="tb"
+                      onChange={(e) => handleChange(e, false)}
+                    ></Input>
+                    <InputRightAddon children="CM"></InputRightAddon>
+                  </InputGroup>
                 </div>
 
                 <h1 className="text-white font-bold">11.GOLONGAN DARAH</h1>
@@ -150,14 +199,15 @@ function Detail() {
                 <Input disabled bgColor={"#D9D9D9"} value={e.alamat}></Input>
                 <h1 className="text-white font-bold">14. NOMOR TELEPON/HP</h1>
                 <InputGroup>
-                  <InputLeftAddon children="+62">
-                    <Input
-                      // disabled
-                      bgColor={"#D9D9D9"}
-                      type="tel"
-                      value={e.no_telp}
-                    ></Input>
-                  </InputLeftAddon>
+                  <InputLeftAddon children="+62"></InputLeftAddon>
+                  <Input
+                    bgColor={"#D9D9D9"}
+                    required
+                    disabled
+                    value={e.no_telp}
+                    name="no_telp"
+                    onChange={(e) => handleChange(e, true)}
+                  ></Input>
                 </InputGroup>
                 <h1 className="text-white font-bold">
                   15. JARAK TEMPAT TINGGAL KE SEKOLAH
@@ -239,7 +289,10 @@ function Detail() {
                   bgColor={"#D9D9D9"}
                   value={e.status_murid || null}
                 ></Input>
-                <div>
+
+                <div
+                  className={`${e.status_murid == "baru" ? "hidden" : "block"}`}
+                >
                   <h1 className="text-white font-light">PINDAHAN DARI</h1>
                   <div>
                     <h1 className="text-white font-bold">NAMA PAUD/TK/RA</h1>

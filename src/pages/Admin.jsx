@@ -84,7 +84,7 @@ function Admin() {
               bgColor={"#FEE771"}
               size={"lg"}
             >
-              Cetak Laporan Pendaftaran
+              <Link to="admin/cetak">Cetak Laporan Pendaftaran</Link>
             </Button>
           </div>
           <Button

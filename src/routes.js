@@ -20,6 +20,12 @@ const routes = [{
     exact: true,
     component: lazy(() => import("./pages/Detail"))
 }
+,{
+    path: '/admin/cetak',
+    title: 'Cetak',
+    exact: true,
+    component: lazy(() => import("./pages/Cetak"))
+}
 
 ]
 

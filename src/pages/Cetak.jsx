@@ -12,6 +12,8 @@ import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { AiOutlineEye } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
+import ExportCSV from "../components/ExportCSV";
+import { CSVLink } from "react-csv";
 import {
   Drawer,
   DrawerBody,
@@ -20,10 +22,11 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  Badge,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
-function List() {
+function Cetak() {
   const [id, setId] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
@@ -45,6 +48,8 @@ function List() {
   async function signOut() {
     const { error } = await supabase.auth.signOut();
   }
+
+  console.log("ini datanya", list);
 
   const history = useHistory();
   return (
@@ -69,33 +74,48 @@ function List() {
         <div className="w-full bg-primary p-5 rounded-t-3xl h-4/5 flex flex-col justify-between">
           <div className="relative bg-primary2 rounded-lg p-4 bottom-10">
             <h1 className="text-center text-xl font-bold text-primary ">
-              List Pendaftaran Calon Siswa
+              Cetak Pendaftaran Calon Siswa
             </h1>
           </div>
-
-          <div className="flex flex-col space-y-3 px-5 h-full  overflow-y-scroll rounded-lg">
-            {list.map((e) => (
-              <div className="w-full flex flex-col  bg-white rounded-lg p-3 space-y-4">
+          <div className="w-full flex flex-row justify-end">
+            {/* <Button colorScheme="green">Cetak Laporan Pendaftaran</Button> */}
+            {/* <ExportCSV></ExportCSV> */}
+            <CSVLink
+              filename="Data Pendaftaran Paud.csv"
+              data={list}
+              className="px-4 bg-green-400 font-bold text-white rounded lg py-2"
+            >
+              Export CSV
+            </CSVLink>
+          </div>
+          <div className="flex flex-col space-y-3 divide-y px-5 my-4 h-full bg-white  overflow-y-scroll rounded-lg">
+            {list.map((e, i) => (
+              <div
+                className="w-full flex flex-col rounded-lg p-3 space-y-4"
+                key={i}
+              >
                 <div className="w-full flex flex-row justify-between items-center">
-                  <h1 className="text-primary font-semibold">{e.id}</h1>
-                  <Link to={`/admin/list/detail/${e.id}`}>
-                    <button className="p-1 bg-green-400 rounded-full text-white ">
-                      <span className="w-full flex flex-row font-bold justify-center items-center gap-3 px-3">
-                        Detail
-                        <AiOutlineEye />
-                      </span>
-                    </button>
-                  </Link>
+                  <h1 className="text-primary font-semibold">{i + 1}</h1>
                 </div>
                 <div>
                   <div className="text-primary font-semibold capitalize">
                     <p>{e.nama_lengkap}</p>
-                    <p>{e.status_murid}</p>
+                    <span className="flex flex-row gap-4">
+                      <p className="text-light text-sm">Status Siswa : </p>
+                      <Badge
+                        colorScheme={`${
+                          e.status_murid == "baru" ? "green" : "purple"
+                        }`}
+                      >
+                        {e.status_murid}
+                      </Badge>
+                    </span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
           <div className="py-1">
             <Button
               width={"min"}
@@ -133,4 +153,4 @@ function List() {
   );
 }
 
-export default List;
+export default Cetak;

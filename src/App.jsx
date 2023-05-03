@@ -21,7 +21,6 @@ function App() {
       setSession(session);
     });
   }, []);
-  console.log(session);
 
   return (
     <>

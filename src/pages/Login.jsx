@@ -33,7 +33,6 @@ function Login() {
       setLoading(false);
     }
   };
-  console.log(email);
   return (
     <div className="bg-gradient-to-b from-primary2 h-screen flex justify-center items-center">
       <div className="  w-full max-w-2xl flex flex-col justify-between h-screen to-white p-5">
