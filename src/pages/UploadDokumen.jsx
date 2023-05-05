@@ -13,7 +13,6 @@ import { supabase } from "../supabaseClient";
 import { v4 as uuidv4 } from "uuid";
 
 function UploadDokumen() {
-  console.log(uuidv4());
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState();
   const finalRef = React.useRef(null);
@@ -24,6 +23,18 @@ function UploadDokumen() {
   const [fileUrl2, setFileUrl2] = useState("");
   const [fileName2, setFileName2] = useState("");
   const history = useHistory();
+  const [list, setList] = useState([]);
+  async function getList() {
+    let { data: pendaftar, error } = await supabase
+      .from("pendaftar")
+      .select("*");
+
+    setList(pendaftar);
+  }
+
+  useEffect(() => {
+    getList();
+  }, []);
 
   const handleFileUpload1 = (event) => {
     const file = event.target.files[0];
@@ -34,6 +45,7 @@ function UploadDokumen() {
   };
   const handleFileUpload2 = (event) => {
     const file = event.target.files[0];
+    setFiles2(file);
     setFileName2(file.name);
     setFileUrl2(URL.createObjectURL(file));
     // lakukan sesuatu dengan file yang di-upload
@@ -46,36 +58,29 @@ function UploadDokumen() {
   }, []);
 
   const handleFileClear1 = () => {
-    setFileName("");
+    setFileName1("");
     setFileUrl1("");
   };
   const handleFileClear2 = () => {
-    setFileName("");
+    setFileName1("");
     setFileUrl1("");
   };
 
-  console.log("ini files", files1);
-
-  async function handleFileUpload() {
-    const dataForm = JSON.parse(localStorage.getItem("data_form"));
+  async function handleFileUpload(id) {
     if (files1) {
       const { data, error } = await supabase.storage
         .from("berkas_pendaftaran")
-        .upload(dataForm.nama_lengkap + "/" + "Akta Kelahiran", files1);
+        .upload(id + "/" + "Akta Kelahiran", files1);
       if (error) {
-        console.log(error);
-      } else {
-        console.log(data);
+        console.error(error);
       }
     }
     if (files2) {
       const { data, error } = await supabase.storage
         .from("berkas_pendaftaran")
-        .upload(dataForm.nama_lengkap + "/" + "Kartu Keluarga", files2);
+        .upload(id + "/" + "Kartu Keluarga", files2);
       if (error) {
-        console.log(error);
-      } else {
-        console.log(data);
+        console.error(error);
       }
     }
   }
@@ -83,18 +88,35 @@ function UploadDokumen() {
   const handleAddData = async (e) => {
     e.preventDefault();
     const dataForm = JSON.parse(localStorage.getItem("data_form"));
-    console.log("ini data Form", dataForm);
     try {
       setLoading(true);
       const { data, error } = await supabase
         .from("pendaftar")
-        .insert([dataForm]);
+        .insert([dataForm])
+        .then((res) => {
+          // Mengambil data terbaru dari tabel
+          supabase
+            .from("pendaftar")
+            .select()
+            .order("id", { ascending: false })
+            .limit(1)
+            .then((res) => {
+              const latestData = res.data[0];
+              const latestId = latestData?.id;
+              handleFileUpload(latestId);
+              onOpen();
+              localStorage.removeItem("data_form");
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       if (error) throw error;
-      handleFileUpload();
-      onOpen();
-      localStorage.removeItem("data_form");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -200,7 +222,7 @@ function UploadDokumen() {
                 </Button>
               </Link>
 
-              <Button bgColor={"#A5FF4C"} type="submit">
+              <Button bgColor={"#A5FF4C"} type="submit" isLoading={loading}>
                 Submit
               </Button>
             </div>

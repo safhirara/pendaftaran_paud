@@ -71,7 +71,7 @@ function App() {
         />
         <Route
           exact
-          path={"/daftar/upload-dokumen/:id"}
+          path={"/daftar/upload-dokumen"}
           render={() => {
             document.title = `Daftar | Pendaftaran Paud`;
             const UploadDokumen = lazy(() => import("./pages/UploadDokumen"));

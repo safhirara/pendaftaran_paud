@@ -49,8 +49,6 @@ function Cetak() {
     const { error } = await supabase.auth.signOut();
   }
 
-  console.log("ini datanya", list);
-
   const history = useHistory();
   return (
     <div className="bg-gradient-to-b from-primary2  h-screen flex justify-center items-center">

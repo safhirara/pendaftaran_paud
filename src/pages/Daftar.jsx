@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { BiHomeAlt } from "react-icons/bi";
 import { useHistory, Link } from "react-router-dom";
+import LogoPaud from "../assets/logo-paud.png";
 import { useState, useEffect } from "react";
 
 function Daftar() {
@@ -46,9 +47,7 @@ function Daftar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("data_form", JSON.stringify(formData));
-    history.push("/daftar/upload-dokumen/33");
-    // console.log("hhehehe", e);
-    // setData(...data,{jenis_kelamin: e})
+    history.push("/daftar/upload-dokumen");
   };
 
   const handleChange = (attr, num) => {
@@ -76,8 +75,11 @@ function Daftar() {
           PENDAFTARAN CALON ANAK DIDIK PAUD/TK/RA
         </h1>
       </div>
+      <div className="w-full flex justify-center items-center">
+        <img src={LogoPaud} className="w-32" alt="logo paud" />
+      </div>
 
-      <div className="w-full px-5 py-20 flex justify-center items-center">
+      <div className="w-full px-5 py-12 flex justify-center items-center">
         <form
           action=""
           className="max-w-3xl container flex flex-col space-y-4"
@@ -253,17 +255,16 @@ function Daftar() {
             name="gol_darah"
             onChange={(e) => handleChange(e, false)}
           >
-            <option value="laki-laki">A</option>
-            <option value="perempuan">B</option>
-            <option value="perempuan">AB</option>
-            <option value="perempuan">O</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="AB">AB</option>
+            <option value="O">O</option>
           </Select>
           <FormLabel className="text-white font-bold">
             12. PENYAKIT YANG PERNAH DIDERITA
           </FormLabel>
           <Input
             bgColor={"#D9D9D9"}
-            required
             value={formData.riwayat_penyakit}
             name="riwayat_penyakit"
             onChange={(e) => handleChange(e, false)}
@@ -286,6 +287,7 @@ function Daftar() {
             <Input
               bgColor={"#D9D9D9"}
               required
+              type="number"
               value={formData.no_telp}
               name="no_telp"
               onChange={(e) => handleChange(e, true)}
@@ -426,8 +428,8 @@ function Daftar() {
             name="status_murid"
             onChange={(e) => handleChange(e, false)}
           >
-            <option value="baru">BARU</option>
-            <option value="pindahan">PINDAHAN</option>
+            <option value="BARU">BARU</option>
+            <option value="PINDAHAN">PINDAHAN</option>
           </Select>
           <div
             className={`${

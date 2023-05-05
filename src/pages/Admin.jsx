@@ -1,10 +1,7 @@
 import React from "react";
 import { BiHomeAlt } from "react-icons/bi";
-import { Input, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-import Lanang from "../assets/GambarLanang.png";
-import Wadon from "../assets/GambarWadon.png";
-import Wave from "../assets/wave.png";
 import LogoPaud from "../assets/logo-paud.png";
 import { supabase } from "../supabaseClient";
 import { useEffect, useState } from "react";
@@ -14,7 +11,6 @@ import { Link } from "react-router-dom";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,

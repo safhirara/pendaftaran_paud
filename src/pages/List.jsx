@@ -12,10 +12,10 @@ import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { AiOutlineEye } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AiFillDelete } from "react-icons/ai";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
@@ -74,18 +74,23 @@ function List() {
           </div>
 
           <div className="flex flex-col space-y-3 px-5 h-full  overflow-y-scroll rounded-lg">
-            {list.map((e) => (
-              <div className="w-full flex flex-col  bg-white rounded-lg p-3 space-y-4">
+            {list.map((e, i) => (
+              <div
+                key={i}
+                className="w-full flex flex-col  bg-white rounded-lg p-3 space-y-4"
+              >
                 <div className="w-full flex flex-row justify-between items-center">
                   <h1 className="text-primary font-semibold">{e.id}</h1>
-                  <Link to={`/admin/list/detail/${e.id}`}>
-                    <button className="p-1 bg-green-400 rounded-full text-white ">
-                      <span className="w-full flex flex-row font-bold justify-center items-center gap-3 px-3">
-                        Detail
-                        <AiOutlineEye />
-                      </span>
-                    </button>
-                  </Link>
+                  <div className="flex flex-row gap-3">
+                    <Link to={`/admin/list/detail/${e.id}`}>
+                      <button className="p-1 bg-green-400 rounded-full text-white ">
+                        <span className="w-full flex flex-row font-bold justify-center items-center gap-3 px-3">
+                          Detail
+                          <AiOutlineEye />
+                        </span>
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 <div>
                   <div className="text-primary font-semibold capitalize">

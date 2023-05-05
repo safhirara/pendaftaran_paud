@@ -21,7 +21,7 @@ function Beranda() {
         <div className="w-full flex flex-row items-center sticky top-0 ">
           <button
             className="bg-primary rounded-full p-1 text-2xl  text-primary2"
-            onClick={() => history.push("/beranda")}
+            onClick={() => history.push("/")}
           >
             <BiHomeAlt></BiHomeAlt>
           </button>
