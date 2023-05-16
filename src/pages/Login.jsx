@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { BiHomeAlt } from "react-icons/bi";
 import { Input, Button, useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
@@ -35,7 +36,7 @@ function Login() {
   };
   return (
     <div className="bg-gradient-to-b from-primary2 h-screen flex justify-center items-center">
-      <div className="  w-full max-w-2xl flex flex-col justify-between h-screen to-white p-5">
+      <div className="  w-full max-w-2xl flex flex-col h-screen to-white p-5">
         <div className="w-full flex flex-row items-center sticky top-0 py-3">
           <button
             className="bg-primary rounded-full p-1 text-2xl  text-primary2"
@@ -47,6 +48,9 @@ function Login() {
             {" "}
             PAUD/TK/RA
           </h1>
+        </div>
+        <div className="flex items-center justify-center w-full mt-4 mb-28">
+          <h1 className="text-m font-bold text-primary">KB Mugi Rahayu, Serayularangan, Mrebet, Purbalingga</h1>
         </div>
         <div className="w-full flex space-y-3 justify-center  flex-col">
           <h1 className="text-6xl font-bold text-primary">Login</h1>
@@ -88,7 +92,7 @@ function Login() {
           </form>
         </div>
         <Button width={"min"} bgColor={"#2C2152"} color={"white"}>
-          Kembali
+          <Link to="/">Kembali</Link>
         </Button>
       </div>
     </div>

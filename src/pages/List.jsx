@@ -57,7 +57,7 @@ function List() {
           >
             <BiHomeAlt></BiHomeAlt>
           </button>
-          <h1 className="font-bold text-primary  w-full text-center">{id}</h1>
+          <h1 className="font-bold text-primary  w-full text-center">KB Mugi Rahayu</h1>
           <button
             className=" rounded-full p-1 text-2xl  text-primary"
             onClick={onOpen}

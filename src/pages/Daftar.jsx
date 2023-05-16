@@ -64,30 +64,35 @@ function Daftar() {
 
   return (
     <div className="w-full bg-primary">
-      <div className="w-full flex flex-row p-5 bg-primary z-40 items-center sticky top-0 ">
+      <div className="sticky top-0 z-40 flex flex-row items-center w-full p-5 bg-primary ">
         <button
-          className="bg-primary2 rounded-full p-1 text-2xl  text-primary"
+          className="absolute p-1 text-2xl rounded-full bg-primary2 text-primary"
           onClick={() => history.push("/")}
         >
           <BiHomeAlt></BiHomeAlt>
         </button>
-        <h1 className="font-bold text-primary2  w-full text-center">
+        <h1 className="w-full font-bold text-center text-primary2">
           PENDAFTARAN CALON ANAK DIDIK PAUD/TK/RA
         </h1>
       </div>
-      <div className="w-full flex justify-center items-center">
+      <div className="flex items-center justify-center w-full">
+        <h1 className="w-full font-bold text-center text-primary2">
+          KB MUGI RAYAHU, Desa Serayularangan, Kecamatan Mrebet, Purbalingga
+        </h1>
+      </div>
+      <div className="flex items-center justify-center w-full">
         <img src={LogoPaud} className="w-32" alt="logo paud" />
       </div>
 
-      <div className="w-full px-5 py-12 flex justify-center items-center">
+      <div className="flex items-center justify-center w-full px-5 py-12">
         <form
           action=""
-          className="max-w-3xl container flex flex-col space-y-4"
+          className="container flex flex-col max-w-3xl space-y-4"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-white font-light">LENGKAPI DATA DIBAWAH INI</h1>
-          <p className="text-white font-bold">A. KETERANGAN ANAK DIDIK</p>
-          <h1 className="text-white font-bold">1. NAMA LENGKAP</h1>
+          <h1 className="font-light text-white">LENGKAPI DATA DIBAWAH INI</h1>
+          <p className="font-bold text-white">A. KETERANGAN ANAK DIDIK</p>
+          <h1 className="font-bold text-white">1. NAMA LENGKAP</h1>
           <Input
             required
             bgColor={"#D9D9D9"}
@@ -96,7 +101,7 @@ function Daftar() {
             name="nama_lengkap"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             2. NAMA PANGGILAN
           </FormLabel>
           <Input
@@ -107,9 +112,9 @@ function Daftar() {
             name="nama_panggilan"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <div className="w-full flex flex-row space-x-3">
+          <div className="flex flex-row w-full space-x-3">
             <div>
-              <FormLabel className="text-white font-bold">
+              <FormLabel className="font-bold text-white">
                 3. JENIS KELAMIN
               </FormLabel>
               <Select
@@ -126,7 +131,7 @@ function Daftar() {
               </Select>
             </div>
             <div>
-              <FormLabel className="text-white font-bold">
+              <FormLabel className="font-bold text-white">
                 4.TANGGAL LAHIR
               </FormLabel>
               <Input
@@ -139,9 +144,9 @@ function Daftar() {
               ></Input>
             </div>
           </div>
-          <div className="w-full flex flex-row space-x-3">
+          <div className="flex flex-row w-full space-x-3">
             <div>
-              <FormLabel className="text-white font-bold">5. AGAMA</FormLabel>
+              <FormLabel className="font-bold text-white">5. AGAMA</FormLabel>
               <Select
                 bgColor={"#D9D9D9"}
                 required
@@ -160,7 +165,7 @@ function Daftar() {
               </Select>
             </div>
             <div>
-              <FormLabel className="text-white font-bold">
+              <FormLabel className="font-bold text-white">
                 6.KEWARGANEGARAAN
               </FormLabel>
               <Select
@@ -178,9 +183,9 @@ function Daftar() {
             </div>
           </div>
 
-          <div className="w-full flex flex-row space-x-3">
+          <div className="flex flex-row w-full space-x-3">
             <div className="w-24">
-              <FormLabel className="text-white font-bold">7. ANAK KE</FormLabel>
+              <FormLabel className="font-bold text-white">7. ANAK KE</FormLabel>
               <Input
                 type="number"
                 required
@@ -191,7 +196,7 @@ function Daftar() {
               ></Input>
             </div>
             <div>
-              <FormLabel className="text-white font-bold">
+              <FormLabel className="font-bold text-white">
                 8. JUMLAH SAUDARA KANDUNG
               </FormLabel>
               <Input
@@ -204,7 +209,7 @@ function Daftar() {
               ></Input>
             </div>
           </div>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             9. BAHASA SEHARI-HARI
           </FormLabel>
           <Input
@@ -215,10 +220,10 @@ function Daftar() {
             onChange={(e) => handleChange(e, false)}
           ></Input>
 
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             10.BERAT/TINGGI BADAN
           </FormLabel>
-          <div className="w-full flex flex-row space-x-4">
+          <div className="flex flex-row w-full space-x-4">
             <InputGroup>
               <Input
                 required
@@ -243,7 +248,7 @@ function Daftar() {
             </InputGroup>
           </div>
 
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             11.GOLONGAN DARAH
           </FormLabel>
           <Select
@@ -260,7 +265,7 @@ function Daftar() {
             <option value="AB">AB</option>
             <option value="O">O</option>
           </Select>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             12. PENYAKIT YANG PERNAH DIDERITA
           </FormLabel>
           <Input
@@ -269,7 +274,7 @@ function Daftar() {
             name="riwayat_penyakit"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             13. ALAMAT TEMPAT TINGGAL
           </FormLabel>
           <Input
@@ -279,7 +284,7 @@ function Daftar() {
             name="alamat"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             14. NOMOR TELEPON/HP
           </FormLabel>
           <InputGroup>
@@ -293,7 +298,7 @@ function Daftar() {
               onChange={(e) => handleChange(e, true)}
             ></Input>
           </InputGroup>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             15. JARAK TEMPAT TINGGAL KE SEKOLAH
           </FormLabel>
           <Input
@@ -303,10 +308,10 @@ function Daftar() {
             name="jarak_tempat_tinggal"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             B. ORANGTUA/WALI
           </FormLabel>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             16. NAMA AYAH KANDUNG
           </FormLabel>
           <Input
@@ -315,7 +320,7 @@ function Daftar() {
             name="nama_ayah"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             17. NAMA IBU KANDUNG
           </FormLabel>
           <Input
@@ -324,7 +329,7 @@ function Daftar() {
             name="nama_ibu"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             18. PENDIDIKAN TERTINGGI AYAH KANDUNG
           </FormLabel>
           <Select
@@ -342,7 +347,7 @@ function Daftar() {
             <option value="SD">SD</option>
             <option value="TIDAK SEKOLAH">TIDAK SEKOLAH</option>
           </Select>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             19. PENDIDIKAN TERTINGGI IBU KANDUNG
           </FormLabel>
           <Select
@@ -360,7 +365,7 @@ function Daftar() {
             <option value="SD">SD</option>
             <option value="TIDAK SEKOLAH">TIDAK SEKOLAH</option>
           </Select>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             20. PEKERJAAN AYAH KANDUNG
           </FormLabel>
           <Input
@@ -369,7 +374,7 @@ function Daftar() {
             name="pekerjaan_ayah"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             21. PEKERJAAN IBU KANDUNG
           </FormLabel>
           <Input
@@ -379,17 +384,17 @@ function Daftar() {
             onChange={(e) => handleChange(e, false)}
           ></Input>
 
-          <h1 className="text-white font-light">
+          <h1 className="font-light text-white">
             APABILA MEMILIKI WALI ANAK HARAP DIISI
           </h1>
-          <FormLabel className="text-white font-bold">22. NAMA WALI</FormLabel>
+          <FormLabel className="font-bold text-white">22. NAMA WALI</FormLabel>
           <Input
             bgColor={"#D9D9D9"}
             value={formData.nama_wali}
             name="nama_wali"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             23. PENDIDIKAN TERTINGGI
           </FormLabel>
           <Input
@@ -398,7 +403,7 @@ function Daftar() {
             name="pendidikan_tertinggi_wali"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">
+          <FormLabel className="font-bold text-white">
             24. HUBUNGAN KELUARGA
           </FormLabel>
           <Input
@@ -407,15 +412,15 @@ function Daftar() {
             name="pekerjaan_wali"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <FormLabel className="text-white font-bold">25. PEKERJAAN</FormLabel>
+          <FormLabel className="font-bold text-white">25. PEKERJAAN</FormLabel>
           <Input
             bgColor={"#D9D9D9"}
             value={formData.hubungan_keluarga_wali}
             name="hubungan_keluarga_wali"
             onChange={(e) => handleChange(e, false)}
           ></Input>
-          <h1 className="text-white font-bold">C. ASAL MULA ANAK</h1>
-          <FormLabel className="text-white font-bold">
+          <h1 className="font-bold text-white">C. ASAL MULA ANAK</h1>
+          <FormLabel className="font-bold text-white">
             26. MASUK PAUD/TK/RA INI SEBAGAI
           </FormLabel>
 
@@ -436,9 +441,9 @@ function Daftar() {
               formData.status_murid == "pindahan" ? "block" : "hidden"
             }`}
           >
-            <h1 className="text-white font-light">PINDAHAN DARI</h1>
+            <h1 className="font-light text-white">PINDAHAN DARI</h1>
             <div>
-              <FormLabel className="text-white font-bold">
+              <FormLabel className="font-bold text-white">
                 NAMA PAUD/TK/RA
               </FormLabel>
               <Input
@@ -447,7 +452,7 @@ function Daftar() {
                 name="nama_sekolah_sebelumnya"
                 onChange={(e) => handleChange(e, false)}
               ></Input>
-              <FormLabel className="text-white font-bold">
+              <FormLabel className="font-bold text-white">
                 HARI/TANGGAL
               </FormLabel>
               <Input
@@ -468,7 +473,7 @@ function Daftar() {
         <ModalContent>
           <ModalBody>
             <div className="py-5">
-              <h1 className="text-xl text-center font-bold text-primary">
+              <h1 className="text-xl font-bold text-center text-primary">
                 Anda telah mengisi beberapa field sebelumnya, apakah Anda ingin
                 melanjutkan mengisi form?
               </h1>
@@ -486,7 +491,7 @@ function Daftar() {
         </ModalContent>
       </Modal>
     </div>
-  );
+  )
 }
 
 export default Daftar;

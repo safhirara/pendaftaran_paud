@@ -44,7 +44,7 @@ function Admin() {
           >
             <BiHomeAlt></BiHomeAlt>
           </button>
-          <h1 className="font-bold text-primary  w-full text-center">{id}</h1>
+          <h1 className="font-bold text-primary  w-full text-center">KB Mugi Rahayu</h1>
           <button
             className=" rounded-full p-1 text-2xl  text-primary"
             onClick={onOpen}
@@ -58,6 +58,9 @@ function Admin() {
             <h1 className="text-3xl font-bold text-primary">Selamat Datang!</h1>
             <h1 className="text-xl font-bold text-primary">
               dilayanan pengelolaan KB Mugi Rahayu
+            </h1>
+            <h1 className="text-l font-bold text-primary">
+              Desa Serayularangan, Kecamatan Mrebet, Purbalingga
             </h1>
           </div>
         </div>
@@ -102,7 +105,7 @@ function Admin() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>KBM MUGI RAHAYU</DrawerHeader>
+          <DrawerHeader>KB MUGI RAHAYU</DrawerHeader>
 
           <DrawerBody>
             <div className="space-y-5">
